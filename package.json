@@ -1,7 +1,7 @@
 {
   "name": "typeorm-api-base",
   "version": "0.1.0",
-  "description": "A base from which to build a full-fledged TypeORM-based API server.",
+  "description": "A base from which to build a full-fledged TypeORM- and Apollo/GraphQL-based API server.",
   "main": "index.js",
   "repository": "https://github.com/bensaufley/typeorm-api-base.git",
   "author": "Ben Saufley <contact@gmail.com>",

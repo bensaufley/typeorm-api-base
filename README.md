@@ -3,4 +3,4 @@
 
 # TypeORM API Base
 
-A base from which to build a full-fledged TypeORM-based API server.
+A base from which to build a full-fledged TypeORM- and Apollo/GraphQL-based API server.
