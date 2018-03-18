@@ -8,12 +8,14 @@
     ".ts"
   ],
   "include": [
-    "src"
+    "src/**/*.ts"
   ],
   "reporter": [
     "lcov",
     "text",
     "text-summary"
   ],
+  "sourceMap": true,
+  "instrument": true,
   "cache": true
 }
