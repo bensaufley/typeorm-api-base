@@ -3,14 +3,14 @@ import { expect } from '@test/support/spec-helper';
 import * as db from '@src/initializers/database';
 
 describe('database', () => {
-  let dbUrl;
+  let dbUrl: string | undefined;
 
   beforeEach(() => {
     dbUrl = process.env.DATABASE_URL;
   });
 
   afterEach(() => {
-    dbUrl = process.env.DATABASE_URL;
+    process.env.DATABASE_URL = dbUrl;
     delete require.cache[require.resolve('@src/initializers/database')];
   });
 

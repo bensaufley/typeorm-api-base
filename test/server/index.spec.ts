@@ -1,4 +1,5 @@
 import { expect, sinon } from '@test/support/spec-helper';
+
 import * as Koa from 'koa';
 
 import * as database from '@src/initializers/database';

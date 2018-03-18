@@ -1,7 +1,8 @@
+import { expect } from '@test/support/spec-helper';
+
 import { Connection } from 'typeorm';
 import { v4 as UUIDv4 } from 'uuid';
 
-import { expect } from '@test/support/spec-helper';
 import * as database from '@src/initializers/database';
 
 import { user, users } from '@src/graphql/resolvers/users';
@@ -31,7 +32,7 @@ describe('resolvers/users', () => {
       } catch (err) {
         expect(err.message).to.eq('invalid input syntax for uuid: "asdf"');
       }
-    })
+    });
   });
 
   describe('users', () => {
