@@ -1,6 +1,7 @@
-FROM node:9.5.0
+FROM node:9.8.0
 LABEL maintainer="Ben Saufley <contact@bensaufley.com>"
 ENV NODE_ENV development
+ENV DATABASE_URL postgres://pguser:pgpass@db:5432/typeorm_api_development
 
 WORKDIR /tmp
 COPY package.json yarn.lock /tmp/
@@ -10,7 +11,4 @@ RUN mkdir -p /usr/src/typeorm-api-base/ && cp -a /tmp/node_modules /usr/src/type
 WORKDIR /usr/src/typeorm-api-base
 COPY . /usr/src/typeorm-api-base
 
-CMD yarn start
-
 EXPOSE 3000
-EXPOSE 8788

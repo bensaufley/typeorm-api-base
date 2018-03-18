@@ -1,7 +1,8 @@
 {
   "all": true,
   "exclude": [
-    "src/index.ts"
+    "src/index.ts",
+    "src/migrations"
   ],
   "extension": [
     ".ts"
