@@ -32,6 +32,6 @@ jobs:
 
       # run tests!
       - run: yarn test:cov
-      - run: codeclimate-test-reporter < coverage/lcov.info
+      - run: yarn codeclimate-test-reporter < coverage/lcov.info
 
 
