@@ -31,14 +31,14 @@ jobs:
           key: v1-dependencies-{{ checksum "yarn.lock" }}
 
       - run:
-        name: Run Migrations
-        command: yarn db:test:prepare
+          name: Run Migrations
+          command: yarn db:test:prepare
 
       # run tests!
       - run: yarn test:cov
 
       - run:
-        name: Upload Coverage Results to CodeClimate
-        command: yarn codeclimate-test-reporter < coverage/lcov.info
+          name: Upload Coverage Results to CodeClimate
+          command: yarn codeclimate-test-reporter < coverage/lcov.info
 
 
