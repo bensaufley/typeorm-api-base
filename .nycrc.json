@@ -1,0 +1,18 @@
+{
+  "all": true,
+  "exclude": [
+    "src/index.ts"
+  ],
+  "extension": [
+    ".ts"
+  ],
+  "include": [
+    "src"
+  ],
+  "reporter": [
+    "lcov",
+    "text",
+    "text-summary"
+  ],
+  "cache": true
+}

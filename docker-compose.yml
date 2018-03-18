@@ -1,0 +1,33 @@
+version: "3.4"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dev.dockerfile
+    command: yarn start
+    depends_on:
+      - db
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgres://pguser:pgpass@db:5432/typeorm_api_development
+    networks:
+      - default
+    ports:
+      - '8787:3000'
+      - '8788:8788'
+    volumes:
+      - .:/usr/src/typeorm-api-base
+      - /usr/src/typeorm-api-base/.build
+  db:
+    image: postgres:10.1
+    environment:
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pgpass
+      POSTGRES_DB: typeorm_api_development
+    networks:
+      - default
+    ports:
+      - '9876:5432'
+networks:
+  default:

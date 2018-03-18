@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "tslint-react",
+    "tslint-config-airbnb"
+  ],
+  "linterOptions": {
+    "exclude": [
+      "node_modules"
+    ]
+  },
+  "rules": {
+    "jsx-boolean-value": [true, "never"],
+    "ter-arrow-parens": [true, "always"],
+    "variable-name": [true, "check-format", "allow-pascal-case", "allow-leading-underscore"]
+  }
+}
