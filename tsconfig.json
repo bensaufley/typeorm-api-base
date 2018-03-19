@@ -15,7 +15,6 @@
     ],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "outDir": "./.build",
     "sourceMap": true,
     "strictPropertyInitialization": false,
     "baseUrl": ".",

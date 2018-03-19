@@ -1,6 +1,7 @@
 const { parse } = require('pg-connection-string');
 
 const isTest = process.env.NODE_ENV === 'test';
+const isProd = process.env.NODE_ENV === 'production';
 const parsed = process.env.DATABASE_URL ? parse(process.env.DATABASE_URL) : {};
 
 let connectionOptions = {
@@ -16,17 +17,17 @@ module.exports = {
   type: 'postgres',
   logging: isTest ? false : ['query', 'error'],
   entities: [
-    'src/entities/**/*.ts'
+    isProd ? '.build/entities/**/*.js' : 'src/entities/**/*.ts'
   ],
   migrations: [
-    'src/migrations/**/*.ts',
+    isProd ? '.build/migrations/**/*.js' : 'src/migrations/**/*.ts',
   ],
   subscribers: [
-    'src/subscribers/**/*.ts',
+    isProd ? '.build/subscribers/**/*.js' : 'src/subscribers/**/*.ts',
   ],
   cli: {
-    entitiesDir: 'src/entities',
-    migrationsDir: 'src/migrations',
-    subscribersDir: 'src/subscribers',
+    entitiesDir: isProd ? '.build/entities' : 'src/entities',
+    migrationsDir: isProd ? '.build/migrations' : 'src/migrations',
+    subscribersDir: isProd ? '.build/subscribers' : 'src/subscribers',
   },
 };

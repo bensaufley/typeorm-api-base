@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "strict": false,
+    "target": "es6",
+    "outDir": "./.build",
+    "sourceMap": false
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}

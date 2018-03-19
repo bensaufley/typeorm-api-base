@@ -29,10 +29,12 @@
     "typescript": "^2.7.2"
   },
   "scripts": {
+    "build": "tsc -p tsconfig.build.json && node ./replace-paths.js",
     "db:migrate": "ts-node ./node_modules/.bin/typeorm migrations:run",
     "db:test:prepare": "NODE_ENV=test ts-node ./node_modules/.bin/typeorm schema:drop && NODE_ENV=test ts-node ./node_modules/.bin/typeorm migrations:run ",
+    "dev": "nodemon",
     "lint": "tslint --type-check -p tsconfig.json -c tslint.json -t stylish",
-    "start": "nodemon",
+    "start": "node ./.build/index.js",
     "test": "mocha",
     "test:cov": "nyc yarn test"
   },

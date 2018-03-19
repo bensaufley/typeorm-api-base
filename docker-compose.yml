@@ -4,7 +4,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: dev.dockerfile
+      dockerfile: Dev.dockerfile
     command: ./script/start.sh
     depends_on:
       - db
@@ -12,7 +12,7 @@ services:
       NODE_ENV: development
       DATABASE_URL: postgres://pguser:pgpass@db:5432/typeorm_api_development
     ports:
-      - '7290:3000'
+      - '7290:80'
     volumes:
       - .:/usr/src/typeorm-api-base
       - /usr/src/typeorm-api-base/.build

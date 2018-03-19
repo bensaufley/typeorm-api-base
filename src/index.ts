@@ -1,3 +1,5 @@
 import { serve } from './server';
 
-serve(3000);
+const port = process.env.PORT ? Number(process.env.PORT) : 80;
+
+serve(port);
