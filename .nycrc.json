@@ -2,7 +2,8 @@
   "all": true,
   "exclude": [
     "src/index.ts",
-    "src/migrations"
+    "src/migrations",
+    "**/node_modules/**"
   ],
   "extension": [
     ".ts"
