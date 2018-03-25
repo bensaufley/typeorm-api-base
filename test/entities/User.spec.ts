@@ -4,7 +4,6 @@ import { ValidationError } from 'class-validator';
 import { Connection } from 'typeorm';
 
 import * as database from '@src/initializers/database';
-import Logger from '@src/lib/Logger';
 
 import User from '@src/entities/User';
 
