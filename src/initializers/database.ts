@@ -1,12 +1,12 @@
 import { createConnection } from 'typeorm';
 
 import ormconfig = require('../../ormconfig');
+import Logger from '@src/lib/Logger';
 
 export const initialize = async () => {
   const connection = await createConnection(ormconfig);
 
-  /* istanbul ignore if */
-  if (process.env.NODE_ENV !== 'test') console.log('Database connection established');
+  Logger.debug('Database connection established');
 
   return connection;
 };

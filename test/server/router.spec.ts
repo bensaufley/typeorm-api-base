@@ -11,6 +11,10 @@ describe('server/router', () => {
 
   it('has proper routes', () => {
     expect(router.stack.map((r) => r.path)).to.have.members([
+      '(.*)',
+      '(.*)',
+      '/signup',
+      '/login',
       '/graphiql',
       '/graphql',
       '/graphql',

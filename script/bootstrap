@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# script/bootstrap: Resolve all dependencies that the application
+#                   requires to run.
+#                   Source: https://github.com/github/scripts-to-rule-them-all
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+echo "===> Building Docker image…"
+docker-compose build

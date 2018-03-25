@@ -2,6 +2,7 @@ FROM node:9.8.0
 LABEL maintainer="Ben Saufley <contact@bensaufley.com>"
 ENV NODE_ENV development
 ENV DATABASE_URL postgres://pguser:pgpass@db:5432/typeorm_api_development
+ENV KOA_KEYS sample-development-key
 
 WORKDIR /tmp
 COPY package.json yarn.lock /tmp/
@@ -14,4 +15,4 @@ COPY . /usr/src/typeorm-api-base
 RUN useradd -m myuser
 USER myuser
 
-EXPOSE 80
+EXPOSE 3000

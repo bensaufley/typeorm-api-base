@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# script/test: Run test suite for application. Runs nyc coverage by default.
+#              To view the coverage report in your browser, run "npm run cov:show"
+#              or visit http://localhost:54322
+#              Source: https://github.com/github/scripts-to-rule-them-all
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+script/update
+
+echo "===> Running tests…"
+
+# run test with nyc coverage in docker image
+docker-compose \
+  run --rm \
+  -e DATABASE_URL=postgres://pguser:pgpass@db:5432/typeorm_api_test \
+  web \
+  script/wait-for-it.sh db:5432 --strict -- \
+  yarn db:test:prepare && \
+  yarn test:cov

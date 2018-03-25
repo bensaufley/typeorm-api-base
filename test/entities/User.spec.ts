@@ -1,18 +1,32 @@
-import { expect } from '@test/support/spec-helper';
+import { clean, expect } from '@test/support/spec-helper';
 
-import { validate } from 'class-validator';
+import { ValidationError } from 'class-validator';
 import { Connection } from 'typeorm';
 
 import * as database from '@src/initializers/database';
+import Logger from '@src/lib/Logger';
 
 import User from '@src/entities/User';
+
+const violationMessages = (err: any) => {
+  return err.violations.reduce(
+    (arr: string[], v: ValidationError) => [
+      ...arr,
+      ...Object.values(v.constraints),
+    ],
+    [],
+  );
+};
 
 describe('User', () => {
   let connection: Connection;
 
   before(async () => {
     connection = await database.initialize();
+    await clean();
   });
+
+  afterEach(clean);
 
   after(async () => {
     await connection.close();
@@ -23,79 +37,40 @@ describe('User', () => {
   // basic tests for the User model, and the code does specify the validators;
   // doesn't hurt to test that they work as expected.
   describe('validation', () => {
-    describe('username', () => {
-      it('rejects short username', async () => {
-        const user = new User();
-        user.username = 'blah';
-        const errors = await validate(user);
+    it('rejects a duplicate username', async () => {
+      const firstUser = User.create({ username: 'my-test-user', email: 'myemail@email.com' });
+      firstUser.password = 'my-test-password';
+      await firstUser.save();
 
-        expect(errors).to.deep.include({
-          target: user,
-          property: 'username',
-          value: 'blah',
-          children: [],
-          constraints: {
-            length: 'username must be longer than or equal to 8 characters',
-          },
-        });
-      });
+      const secondUser = User.create({ username: 'my-test-user', email: 'another-email@bla.com' });
+      secondUser.password = 'another-password';
 
-      it('rejects long username', async () => {
-        const user = new User();
-        user.username = 'oueoiruaoerhoewaroiuewprweropiaeworkewrpiuerjewrpoiaewrewr';
-        const errors = await validate(user);
+      try {
+        await secondUser.save();
+        throw new Error('Save should have thrown');
+      } catch (err) {
+        expect(err.message).to.eq('Error validating User');
+        expect(violationMessages(err))
+          .to.include('User already exists with username of my-test-user');
+      }
+    });
 
-        expect(errors).to.deep.include({
-          target: user,
-          property: 'username',
-          value: 'oueoiruaoerhoewaroiuewprweropiaeworkewrpiuerjewrpoiaewrewr',
-          children: [],
-          constraints: {
-            length: 'username must be shorter than or equal to 32 characters',
-          },
-        });
-      });
+    it('rejects a duplicate email', async () => {
+      const firstUser = User.create({ username: 'flargabo', email: 'myemail@email.com' });
+      firstUser.password = 'my-test-password';
+      await firstUser.save();
 
-      it('rejects invalid username', async () => {
-        const user = new User();
-        user.username = 'Mistah "Bombastic"';
-        let errors = await validate(user);
+      const secondUser = User.create({ username: 'blargabo', email: 'myemail@email.com' });
+      secondUser.password = 'another-password';
 
-        expect(errors).to.deep.include({
-          target: user,
-          property: 'username',
-          value: 'Mistah "Bombastic"',
-          children: [],
-          constraints: {
-            matches: 'username must begin with a letter, end with a letter or ' +
-              'number, and consist of letters, numbers, dashes and periods',
-          },
-        });
-
-        user.username = '99luftballoons';
-        errors = await validate(user);
-
-        expect(errors.find((e) => e.property === 'username')!.constraints).to.have.key('matches');
-
-        user.username = 'mr...incredible';
-        errors = await validate(user);
-
-        expect(errors.find((e) => e.property === 'username')!.constraints).to.have.key('matches');
-      });
-
-      it('accepts valid usernames', async () => {
-        const user = new User();
-        user.username = 'mr.fantastic';
-        let errors = await validate(user);
-
-        expect(errors.map((e) => e.property)).not.to.include('username');
-
-        user.username = 'bobparr1968';
-        errors = await validate(user);
-
-        expect(errors.map((e) => e.property)).not.to.include('username');
-      });
+      try {
+        await secondUser.save();
+        throw new Error('Save should have thrown');
+      } catch (err) {
+        expect(err.message).to.eq('Error validating User');
+        expect(violationMessages(err))
+          .to.include('User already exists with email of myemail@email.com');
+      }
     });
   });
 });
-

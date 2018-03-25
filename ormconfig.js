@@ -4,7 +4,7 @@ const isTest = process.env.NODE_ENV === 'test';
 const isProd = process.env.NODE_ENV === 'production';
 const parsed = process.env.DATABASE_URL ? parse(process.env.DATABASE_URL) : {};
 
-let connectionOptions = {
+const connectionOptions = {
   host: parsed.host || 'localhost',
   port: parsed.port || 5432,
   username: parsed.user || 'root',

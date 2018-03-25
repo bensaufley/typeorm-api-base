@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# script/server: Launch the application and any extra
+#                required processes locally.
+#                Source: https://github.com/github/scripts-to-rule-them-all
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+# update build before running server
+script/update
+
+# run the server and all other processes
+docker-compose up
+
+status=$?
+
+docker-compose down
+
+exit $status
