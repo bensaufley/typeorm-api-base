@@ -1,9 +1,6 @@
 import * as Koa from 'koa';
 import * as koaBodyparser from 'koa-bodyparser';
-import * as koaMount from 'koa-mount';
 import * as koaSession from 'koa-session';
-import * as koaStatic from 'koa-static';
-import * as path from 'path';
 
 import * as database from '@src/initializers/database';
 import koaErrorHandler from '@src/lib/koaErrorHandler';
@@ -30,12 +27,11 @@ export const serve = async (port: number) => {
     .use(koaBodyparser());
 
   if (process.env.NODE_ENV === 'development') {
-    const kStatic: typeof koaStatic = require('koa-static');
-    const mount: typeof koaMount = require('koa-mount');
-    const p: typeof path = require('path');
-
     app.use(
-      mount('/_coverage', kStatic(p.resolve(process.cwd(), 'coverage/lcov-report'))),
+      require('koa-mount')(
+        '/_coverage',
+        require('koa-static')(process.cwd() + '/coverage/lcov-report'),
+      ),
     );
   }
 
