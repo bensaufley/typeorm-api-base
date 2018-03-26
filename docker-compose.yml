@@ -19,6 +19,7 @@ services:
       - .:/usr/src/typeorm-api-base
       - /usr/src/typeorm-api-base/.build
       - /usr/src/typeorm-api-base/coverage
+      - /usr/src/typeorm-api-base/node_modules
   db:
     image: postgres:9.6.8
     environment:
