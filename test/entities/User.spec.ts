@@ -31,10 +31,6 @@ describe('User', () => {
     await connection.close();
   });
 
-  // This is essentially testing the behavior of external packages. I don't
-  // know if I want to keep it around. But I figured it'd be good to have some
-  // basic tests for the User model, and the code does specify the validators;
-  // doesn't hurt to test that they work as expected.
   describe('validation', () => {
     it('rejects a duplicate username', async () => {
       const firstUser = User.create({ username: 'my-test-user', email: 'myemail@email.com' });
@@ -71,5 +67,42 @@ describe('User', () => {
           .to.include('User already exists with email of myemail@email.com');
       }
     });
+
+    it('rejects a missing password for a new user', async () => {
+      const user = User.create({ username: 'flargabo', email: 'myemail@email.com' });
+
+      try {
+        await user.save();
+        throw new Error('Save should have thrown');
+      } catch (err) {
+        expect(err.message).to.eq('Error validating User');
+        expect(violationMessages(err))
+          .to.include('password should not be null or undefined');
+      }
+    });
+
+    it('does not reject a missing password for an existing user', async () => {
+      const user = User.create({ username: 'flargabo', email: 'myemail@email.com' });
+      user.password = 'my-test-password';
+      await user.save();
+
+      const sameUser = await User.findOne({ email: 'myemail@email.com' });
+      sameUser!.username = 'blargaboo';
+
+      await sameUser!.save();
+
+      const userAgain = await User.findOne({ username: 'blargaboo' });
+
+      expect(userAgain).to.exist;
+    });
+  });
+
+  describe('signUp', () => {
+    it('creates a user');
+  });
+
+  describe('hasValidPassword', () => {
+    it('returns true for valid user');
+    it('returns false for invalid user');
   });
 });

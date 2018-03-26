@@ -12,7 +12,10 @@ RUN mkdir -p /usr/src/typeorm-api-base/ && cp -a /tmp/node_modules /usr/src/type
 WORKDIR /usr/src/typeorm-api-base
 COPY . /usr/src/typeorm-api-base
 
+RUN mkdir -p /usr/src/typeorm-api-base/coverage
+
 RUN useradd -m myuser
+RUN chown -R myuser:myuser /usr/src/typeorm-api-base/coverage
 USER myuser
 
 EXPOSE 3000

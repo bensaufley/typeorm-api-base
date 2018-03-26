@@ -19,5 +19,4 @@ docker-compose \
   -e DATABASE_URL=postgres://pguser:pgpass@db:5432/typeorm_api_test \
   web \
   script/wait-for-it.sh db:5432 --strict -- \
-  yarn db:test:prepare && \
-  yarn test:cov
+  yarn npm-run-all db:test:prepare test:cov
