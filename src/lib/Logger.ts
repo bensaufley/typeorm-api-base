@@ -40,7 +40,7 @@ export default class Logger {
     text: string,
     ...args: any[],
   ) {
-    console.log(
+    console[text === 'ERROR' ? 'error' : 'log'](
       [
         this.bold(color(text)),
         this.brightBlack(`\t[${new Date()}]`),

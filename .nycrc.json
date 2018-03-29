@@ -3,6 +3,7 @@
   "exclude": [
     "src/index.ts",
     "src/migrations",
+    "src/graphql/types",
     "**/node_modules/**"
   ],
   "extension": [

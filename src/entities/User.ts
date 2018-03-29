@@ -28,6 +28,7 @@ import IsUnique from '../lib/IsUnique'; // Must be relative because of TypeORM C
 const asyncRandomBytes = (size: number, encoding: string): Promise<string> => (
   new Promise((resolve, reject) => {
     randomBytes(size, (err, buff) => {
+      /* istanbul ignore if */
       if (err) return reject(err);
       resolve(buff.toString(encoding));
     });

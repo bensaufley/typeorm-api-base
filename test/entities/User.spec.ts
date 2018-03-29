@@ -98,11 +98,26 @@ describe('User', () => {
   });
 
   describe('signUp', () => {
-    it('creates a user');
+    it('creates a user', async () => {
+      await User.signUp('myemail@test.com', 'my-new-user', 'its-my-password');
+
+      const user = await User.findOne({ email: 'myemail@test.com', username: 'my-new-user' });
+
+      expect(user).to.exist;
+    });
   });
 
   describe('hasValidPassword', () => {
-    it('returns true for valid user');
-    it('returns false for invalid user');
+    it('returns true for valid user', async () => {
+      const user = await User.signUp('myemail@test.com', 'my-new-user', 'its-my-password');
+
+      expect(user.hasValidPassword('its-my-password')).to.be.true;
+    });
+
+    it('returns false for invalid user', async () => {
+      const user = await User.signUp('myemail@test.com', 'my-new-user', 'its-my-password');
+
+      expect(user.hasValidPassword('not-my-password')).to.be.false;
+    });
   });
 });
