@@ -26,6 +26,7 @@ export const serve = async (port: number) => {
     .use(koaSession(koaSessionOpts, app))
     .use(koaBodyparser());
 
+  // istanbul ignore if
   if (process.env.NODE_ENV === 'development') {
     app.use(
       require('koa-mount')(

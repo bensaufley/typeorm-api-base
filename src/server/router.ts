@@ -16,7 +16,7 @@ router
   .use(passport.initialize())
   .use(passport.session());
 
-const ok: Router.IMiddleware = async (ctx) => { ctx.status = 200; };
+export const ok = async (ctx: Router.IRouterContext) => { ctx.status = 200; };
 
 router.post('/signup', passport.authenticate('local-signup'), ok);
 router.post('/login', passport.authenticate('local'), ok);
