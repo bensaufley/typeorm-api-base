@@ -6,8 +6,7 @@ export default new LocalStrategy(
   {
     passReqToCallback: true,
   },
-  (req, username, password, done) => {
-    const email = req.body.email;
+  ({ body: { email } }, username, password, done) => {
     User.signUp(email, username, password)
       .then((user) => done(null, user))
       .catch((err) => {

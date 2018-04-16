@@ -64,10 +64,10 @@ export default class User extends BaseEntity {
   @IsDefined()
   email: string;
 
-  @Column('varchar', { select: false })
+  @Column('varchar')
   passwordDigest: string;
 
-  @Column('varchar', { select: false })
+  @Column('varchar')
   passwordSalt: string;
 
   @ValidateIf((o, v) => !o.id || v !== undefined)
@@ -82,11 +82,14 @@ export default class User extends BaseEntity {
     });
     user.password = password;
     await user.save();
+    delete user.password;
     return user;
   }
 
   @BeforeInsert()
+  @BeforeUpdate()
   async digestPassword() {
+    if (!this.password) return;
     this.passwordSalt = await asyncRandomBytes(32, 'hex');
     this.passwordDigest = createHash('sha256')
       .update(this.password + this.passwordSalt)
@@ -110,5 +113,15 @@ export default class User extends BaseEntity {
   public hasValidPassword(password: string) {
     const passwordDigest = createHash('sha256').update(password + this.passwordSalt).digest('hex');
     return passwordDigest === this.passwordDigest;
+  }
+
+  public get exposedAttributes() {
+    return {
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+      id: this.id,
+      email: this.email,
+      username: this.username,
+    };
   }
 }

@@ -1,4 +1,4 @@
-import { clean, expect } from '@test/support/spec-helper';
+import { clean, expect, sinon } from '@test/support/spec-helper';
 
 import { ValidationError } from 'class-validator';
 import { Connection } from 'typeorm';
@@ -109,15 +109,33 @@ describe('User', () => {
 
   describe('hasValidPassword', () => {
     it('returns true for valid user', async () => {
-      const user = await User.signUp('myemail@test.com', 'my-new-user', 'its-my-password');
+      await User.signUp('myemail@test.com', 'my-new-user', 'its-my-password');
+      const user = await User.findOne({ username: 'my-new-user' });
 
-      expect(user.hasValidPassword('its-my-password')).to.be.true;
+      expect(user!.hasValidPassword('its-my-password')).to.be.true;
     });
 
     it('returns false for invalid user', async () => {
-      const user = await User.signUp('myemail@test.com', 'my-new-user', 'its-my-password');
+      await User.signUp('myemail@test.com', 'my-new-user', 'its-my-password');
+      const user = await User.findOne({ username: 'my-new-user' });
 
-      expect(user.hasValidPassword('not-my-password')).to.be.false;
+      expect(user!.hasValidPassword('not-my-password')).to.be.false;
+    });
+  });
+
+  describe('exposedAttributes', () => {
+    it('returns only a certain subset of attributes', async () => {
+      await User.signUp('myemail@test.com', 'my-new-user', 'its-my-password');
+      const user = await User.findOne({ username: 'my-new-user' });
+
+      expect(user!.exposedAttributes).to.have.all.keys(
+        'createdAt', 'updatedAt', 'id', 'username', 'email',
+      );
+      expect(user!.exposedAttributes.createdAt).to.be.an.instanceOf(Date);
+      expect(user!.exposedAttributes.updatedAt).to.be.an.instanceOf(Date);
+      expect(user!.exposedAttributes.id).to.be.a('string');
+      expect(user!.exposedAttributes.username).to.eq('my-new-user');
+      expect(user!.exposedAttributes.email).to.eq('myemail@test.com');
     });
   });
 });

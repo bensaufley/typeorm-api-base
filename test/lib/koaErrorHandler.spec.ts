@@ -1,7 +1,6 @@
 import { expect, sinon } from '@test/support/spec-helper';
 
 import { ValidationError } from 'class-validator';
-import { Context } from 'koa';
 
 import koaErrorHandler, { validationErrorReducer } from '@src/lib/koaErrorHandler';
 
@@ -24,6 +23,10 @@ describe('koaErrorHandler', () => {
         'here\'s another error', 'and another',
         'here\'s a third error', 'another other message',
       ]);
+    });
+
+    it('returns an empty array if the error has no violations attached', () => {
+      expect(validationErrorReducer()).to.eql([]);
     });
   });
 
@@ -53,6 +56,14 @@ describe('koaErrorHandler', () => {
       expect(ctx.app.emit).not.to.have.been.called;
       expect(ctx.status).to.be.null;
       expect(ctx.body).to.be.null;
+    });
+
+    it('defaults to 500', async () => {
+      const err: any = new Error('Borkened');
+      const next = sinon.stub().rejects(err);
+
+      await koaErrorHandler(ctx, next);
+      expect(ctx.status).to.eq(500);
     });
 
     it('sets the status and body and emits the error when error', async () => {

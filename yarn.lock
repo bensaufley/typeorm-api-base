@@ -736,6 +736,14 @@ center-align@^0.1.1:
     align-text "^0.1.3"
     lazy-cache "^1.0.3"
 
+chai-change@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/chai-change/-/chai-change-2.1.2.tgz#1231cdf8bf5930eea1fab72b5cc4864e5bcae7f6"
+
+chai-passport-strategy@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/chai-passport-strategy/-/chai-passport-strategy-1.0.1.tgz#dab18048f6ea786ec98cb94d4b79c0c62ff3f204"
+
 chai@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/chai/-/chai-4.1.2.tgz#0f64584ba642f0f2ace2806279f4f06ca23ad73c"
