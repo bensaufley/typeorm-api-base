@@ -1,4 +1,4 @@
-import { clean, expect, sinon } from '@test/support/spec-helper';
+import { clean, expect } from '@test/support/spec-helper';
 
 import { ValidationError } from 'class-validator';
 import { Connection } from 'typeorm';

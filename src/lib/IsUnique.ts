@@ -16,7 +16,7 @@ export const IsUniqueConstraintForClass = (Klass: typeof BaseEntity) => {
 
     async validate(value: any, args: ValidationArguments) {
       let qBuilder = await Klass.createQueryBuilder();
-      qBuilder = qBuilder.where({ [args.property]: value });
+      qBuilder = qBuilder.where(`${args.property} = :value`, { value });
       const id = (args.object as any).id;
       if (id) qBuilder = qBuilder.where('id != :id', { id });
       const existingRecord = await qBuilder.getOne();
