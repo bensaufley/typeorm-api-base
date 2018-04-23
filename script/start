@@ -1,5 +1,7 @@
 #!/bin/sh
 
-dir="`dirname $0`"
+set -e
 
-$dir/wait-for-it db:5432 --strict -- yarn db:migrate && yarn dev
+cd "$(dirname "$0")/.."
+
+script/wait-for-it db:5432 --strict -- yarn db:migrate && yarn dev

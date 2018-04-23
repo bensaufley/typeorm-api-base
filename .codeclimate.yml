@@ -15,6 +15,6 @@ engines:
   tslint:
     enabled: true
 ratings:
-   paths:
+  paths:
     - "script/*"
     - "**.ts"

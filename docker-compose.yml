@@ -29,7 +29,7 @@ services:
     ports:
       - '7291:5432'
     volumes:
-      - ./script/docker-postgresql-multiple-databases:/docker-entrypoint-initdb.d
+      - ./vendor-scripts/docker-postgresql-multiple-databases:/docker-entrypoint-initdb.d
       - pgdata:/var/lib/postgresql/data
 volumes:
   pgdata:
