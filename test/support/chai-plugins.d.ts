@@ -26,7 +26,9 @@ module 'chai-passport-strategy' {
 
   interface ChaiPassportTest {
     success: (cb: (user: any, info?: object) => void) => ChaiPassportTest;
-    fail: (cb: (challenge?: { message: string } | string | number, status?: number) => void) => ChaiPassportTest;
+    fail: (
+      cb: (challenge?: { message: string } | string | number, status?: number) => void,
+    ) => ChaiPassportTest;
     redirect: (cb: (url: string, status?: number) => void) => ChaiPassportTest;
     pass: (cb: () => void) => ChaiPassportTest;
     error: (cb: (err: Error) => void) => ChaiPassportTest;

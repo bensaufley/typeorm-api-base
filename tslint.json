@@ -5,7 +5,7 @@
   ],
   "linterOptions": {
     "exclude": [
-      "node_modules/**/*.ts",
+      "node_modules",
       "src/migrations/**/*.ts"
     ]
   },

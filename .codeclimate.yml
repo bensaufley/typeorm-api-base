@@ -12,7 +12,10 @@ engines:
     enabled: true
   shellcheck:
     enabled: true
+    exclude_paths:
+      - "vendor-scripts"
   tslint:
+    config: tslint.json
     enabled: true
 ratings:
   paths:
