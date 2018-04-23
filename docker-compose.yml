@@ -5,22 +5,31 @@ services:
     build:
       context: .
       dockerfile: Dev.dockerfile
-    command: ./script/start.sh
+    command: ./script/start
     depends_on:
       - db
     environment:
-      NODE_ENV: development
       DATABASE_URL: postgres://pguser:pgpass@db:5432/typeorm_api_development
+      KOA_KEYS: sample-development-key
+      NODE_ENV: development
+      PORT: 3000
     ports:
-      - '7290:80'
+      - '7290:3000'
     volumes:
       - .:/usr/src/typeorm-api-base
       - /usr/src/typeorm-api-base/.build
+      - /usr/src/typeorm-api-base/coverage
+      - /usr/src/typeorm-api-base/node_modules
   db:
     image: postgres:9.6.8
     environment:
       POSTGRES_USER: pguser
       POSTGRES_PASSWORD: pgpass
-      POSTGRES_DB: typeorm_api_development
+      POSTGRES_MULTIPLE_DATABASES: typeorm_api_development,typeorm_api_test
     ports:
       - '7291:5432'
+    volumes:
+      - ./vendor-scripts/docker-postgresql-multiple-databases:/docker-entrypoint-initdb.d
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:

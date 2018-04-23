@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# script/update: Update application to run for its current checkout.
+#                Source: https://github.com/github/scripts-to-rule-them-all
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+if [ "$CI" = true ]; then
+  echo "===> Skipping build in CI…"
+else
+  script/bootstrap
+fi

@@ -2,7 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "skipLibCheck": true,
-    "target": "es5",
+    "target": "es6",
     "module": "commonjs",
     "lib": ["es2017", "esnext"],
     "strict": true,

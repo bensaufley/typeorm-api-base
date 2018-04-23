@@ -1,0 +1,23 @@
+exclude_paths:
+  - src/migrations
+engines:
+  duplication:
+    enabled: true
+    exclude_paths:
+      - "src/migrations"
+      - "test/**/*.spec.ts"
+  fixme:
+    enabled: true
+  nodesecurity:
+    enabled: true
+  shellcheck:
+    enabled: true
+    exclude_paths:
+      - "vendor-scripts"
+  tslint:
+    config: tslint.json
+    enabled: true
+ratings:
+  paths:
+    - "script/*"
+    - "**.ts"

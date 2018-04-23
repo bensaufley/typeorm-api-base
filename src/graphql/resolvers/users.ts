@@ -7,6 +7,6 @@ export const user = (
   { id }: { id: string },
   _context?: any,
   _info?: GraphQLResolveInfo,
-) => User.findOneById(id);
+) => User.findOne({ id });
 
 export const users = () => User.find();

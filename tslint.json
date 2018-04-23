@@ -5,12 +5,13 @@
   ],
   "linterOptions": {
     "exclude": [
-      "node_modules/**/*.ts",
+      "node_modules",
       "src/migrations/**/*.ts"
     ]
   },
   "rules": {
     "jsx-boolean-value": [true, "never"],
+    "strict-boolean-expressions": false,
     "ter-arrow-parens": [true, "always"],
     "variable-name": [true, "check-format", "allow-pascal-case", "allow-leading-underscore"]
   }

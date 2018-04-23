@@ -1,101 +1,141 @@
-import { expect } from '@test/support/spec-helper';
+import { clean, expect } from '@test/support/spec-helper';
 
-import { validate } from 'class-validator';
+import { ValidationError } from 'class-validator';
 import { Connection } from 'typeorm';
 
 import * as database from '@src/initializers/database';
 
 import User from '@src/entities/User';
 
+const violationMessages = (err: any) => {
+  return err.violations.reduce(
+    (arr: string[], v: ValidationError) => [
+      ...arr,
+      ...Object.values(v.constraints),
+    ],
+    [],
+  );
+};
+
 describe('User', () => {
   let connection: Connection;
 
   before(async () => {
     connection = await database.initialize();
+    await clean();
   });
+
+  afterEach(clean);
 
   after(async () => {
     await connection.close();
   });
 
-  // This is essentially testing the behavior of external packages. I don't
-  // know if I want to keep it around. But I figured it'd be good to have some
-  // basic tests for the User model, and the code does specify the validators;
-  // doesn't hurt to test that they work as expected.
   describe('validation', () => {
-    describe('username', () => {
-      it('rejects short username', async () => {
-        const user = new User();
-        user.username = 'blah';
-        const errors = await validate(user);
+    it('rejects a duplicate username', async () => {
+      const firstUser = User.create({ username: 'my-test-user', email: 'myemail@email.com' });
+      firstUser.password = 'my-test-password';
+      await firstUser.save();
 
-        expect(errors).to.deep.include({
-          target: user,
-          property: 'username',
-          value: 'blah',
-          children: [],
-          constraints: {
-            length: 'username must be longer than or equal to 8 characters',
-          },
-        });
-      });
+      const secondUser = User.create({ username: 'my-test-user', email: 'another-email@bla.com' });
+      secondUser.password = 'another-password';
 
-      it('rejects long username', async () => {
-        const user = new User();
-        user.username = 'oueoiruaoerhoewaroiuewprweropiaeworkewrpiuerjewrpoiaewrewr';
-        const errors = await validate(user);
+      try {
+        await secondUser.save();
+        throw new Error('Save should have thrown');
+      } catch (err) {
+        expect(err.message).to.eq('Error validating User');
+        expect(violationMessages(err))
+          .to.include('User already exists with username of my-test-user');
+      }
+    });
 
-        expect(errors).to.deep.include({
-          target: user,
-          property: 'username',
-          value: 'oueoiruaoerhoewaroiuewprweropiaeworkewrpiuerjewrpoiaewrewr',
-          children: [],
-          constraints: {
-            length: 'username must be shorter than or equal to 32 characters',
-          },
-        });
-      });
+    it('rejects a duplicate email', async () => {
+      const firstUser = User.create({ username: 'flargabo', email: 'myemail@email.com' });
+      firstUser.password = 'my-test-password';
+      await firstUser.save();
 
-      it('rejects invalid username', async () => {
-        const user = new User();
-        user.username = 'Mistah "Bombastic"';
-        let errors = await validate(user);
+      const secondUser = User.create({ username: 'blargabo', email: 'myemail@email.com' });
+      secondUser.password = 'another-password';
 
-        expect(errors).to.deep.include({
-          target: user,
-          property: 'username',
-          value: 'Mistah "Bombastic"',
-          children: [],
-          constraints: {
-            matches: 'username must begin with a letter, end with a letter or ' +
-              'number, and consist of letters, numbers, dashes and periods',
-          },
-        });
+      try {
+        await secondUser.save();
+        throw new Error('Save should have thrown');
+      } catch (err) {
+        expect(err.message).to.eq('Error validating User');
+        expect(violationMessages(err))
+          .to.include('User already exists with email of myemail@email.com');
+      }
+    });
 
-        user.username = '99luftballoons';
-        errors = await validate(user);
+    it('rejects a missing password for a new user', async () => {
+      const user = User.create({ username: 'flargabo', email: 'myemail@email.com' });
 
-        expect(errors.find((e) => e.property === 'username')!.constraints).to.have.key('matches');
+      try {
+        await user.save();
+        throw new Error('Save should have thrown');
+      } catch (err) {
+        expect(err.message).to.eq('Error validating User');
+        expect(violationMessages(err))
+          .to.include('password should not be null or undefined');
+      }
+    });
 
-        user.username = 'mr...incredible';
-        errors = await validate(user);
+    it('does not reject a missing password for an existing user', async () => {
+      const user = User.create({ username: 'flargabo', email: 'myemail@email.com' });
+      user.password = 'my-test-password';
+      await user.save();
 
-        expect(errors.find((e) => e.property === 'username')!.constraints).to.have.key('matches');
-      });
+      const sameUser = await User.findOne({ email: 'myemail@email.com' });
+      sameUser!.username = 'blargaboo';
 
-      it('accepts valid usernames', async () => {
-        const user = new User();
-        user.username = 'mr.fantastic';
-        let errors = await validate(user);
+      await sameUser!.save();
 
-        expect(errors.map((e) => e.property)).not.to.include('username');
+      const userAgain = await User.findOne({ username: 'blargaboo' });
 
-        user.username = 'bobparr1968';
-        errors = await validate(user);
+      expect(userAgain).to.exist;
+    });
+  });
 
-        expect(errors.map((e) => e.property)).not.to.include('username');
-      });
+  describe('signUp', () => {
+    it('creates a user', async () => {
+      await User.signUp('myemail@test.com', 'my-new-user', 'its-my-password');
+
+      const user = await User.findOne({ email: 'myemail@test.com', username: 'my-new-user' });
+
+      expect(user).to.exist;
+    });
+  });
+
+  describe('hasValidPassword', () => {
+    it('returns true for valid user', async () => {
+      await User.signUp('myemail@test.com', 'my-new-user', 'its-my-password');
+      const user = await User.findOne({ username: 'my-new-user' });
+
+      expect(user!.hasValidPassword('its-my-password')).to.be.true;
+    });
+
+    it('returns false for invalid user', async () => {
+      await User.signUp('myemail@test.com', 'my-new-user', 'its-my-password');
+      const user = await User.findOne({ username: 'my-new-user' });
+
+      expect(user!.hasValidPassword('not-my-password')).to.be.false;
+    });
+  });
+
+  describe('exposedAttributes', () => {
+    it('returns only a certain subset of attributes', async () => {
+      await User.signUp('myemail@test.com', 'my-new-user', 'its-my-password');
+      const user = await User.findOne({ username: 'my-new-user' });
+
+      expect(user!.exposedAttributes).to.have.all.keys(
+        'createdAt', 'updatedAt', 'id', 'username', 'email',
+      );
+      expect(user!.exposedAttributes.createdAt).to.be.an.instanceOf(Date);
+      expect(user!.exposedAttributes.updatedAt).to.be.an.instanceOf(Date);
+      expect(user!.exposedAttributes.id).to.be.a('string');
+      expect(user!.exposedAttributes.username).to.eq('my-new-user');
+      expect(user!.exposedAttributes.email).to.eq('myemail@test.com');
     });
   });
 });
-

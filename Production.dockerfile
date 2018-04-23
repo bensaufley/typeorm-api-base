@@ -2,6 +2,7 @@ FROM node:9.8.0
 LABEL maintainer "Ben Saufley <contact@bensaufley.com>"
 ENV NODE_ENV production
 ENV DATABASE_URL ${DATABASE_URL}
+ENV KOA_KEYS ${KOA_KEYS}
 
 WORKDIR /tmp
 COPY package.json yarn.lock /tmp/
@@ -18,4 +19,4 @@ USER myuser
 
 CMD yarn start
 
-EXPOSE 80
+EXPOSE 3000

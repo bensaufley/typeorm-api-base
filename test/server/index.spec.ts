@@ -26,13 +26,13 @@ describe('server', () => {
   });
 
   it('initializes the database connection', async () => {
-    await serve(80);
+    await serve(3000);
 
     expect(database.initialize).to.have.been.called;
   });
 
   it('initializes Koa', async () => {
-    await serve(80);
+    await serve(3000);
 
     expect(router.routes).to.have.been.called;
     expect(router.allowedMethods).to.have.been.called;

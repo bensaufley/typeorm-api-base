@@ -2,7 +2,8 @@
   "all": true,
   "exclude": [
     "src/index.ts",
-    "src/migrations"
+    "src/migrations",
+    "**/node_modules/**"
   ],
   "extension": [
     ".ts"
@@ -17,5 +18,5 @@
   ],
   "sourceMap": true,
   "instrument": true,
-  "cache": true
+  "cache": false
 }
