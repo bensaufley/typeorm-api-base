@@ -4,4 +4,4 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-script/wait-for-it db:5432 --strict -- yarn db:migrate && yarn dev
+vendor-scripts/wait-for-it db:5432 --strict -- yarn db:migrate && yarn dev
