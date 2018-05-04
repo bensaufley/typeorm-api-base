@@ -25,6 +25,7 @@ const koaErrorHandler: Middleware = async (ctx, next) => {
     };
     (ctx.app as any).emit('error', err, ctx);
   }
+  Logger.debug(ctx.status);
 };
 
 export default koaErrorHandler;
