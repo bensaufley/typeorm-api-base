@@ -10,10 +10,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "moduleResolution": "node",
-    "typeRoots": [
-      "./node_modules/@types",
-      "./test/support"
-    ],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
