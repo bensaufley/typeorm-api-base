@@ -15,7 +15,7 @@ describe('local', () => {
 
   before(async () => {
     connection = await database.initialize();
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
   });
 
   beforeEach(async () => {

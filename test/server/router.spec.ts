@@ -15,6 +15,7 @@ describe('server/router', () => {
       '(.*)',
       '/signup',
       '/login',
+      '/logout',
       '/graphiql',
       '/graphql',
       '/graphql',
@@ -31,4 +32,3 @@ describe('server/router', () => {
     });
   });
 });
-

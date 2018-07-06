@@ -10,9 +10,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "moduleResolution": "node",
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
@@ -21,7 +18,11 @@
     "paths": {
       "@src/*": ["./src/*"],
       "@test/*": ["./test/*"]
-    }
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./@types"
+    ]
   },
   "exclude": [
     "node_modules"

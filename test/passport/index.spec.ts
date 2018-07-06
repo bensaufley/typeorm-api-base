@@ -14,7 +14,7 @@ describe('passport', () => {
 
   before(async () => {
     connection = await database.initialize();
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
   });
 
   beforeEach(async () => {
