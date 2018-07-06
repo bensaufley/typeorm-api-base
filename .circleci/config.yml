@@ -7,7 +7,7 @@ jobs:
       - image: circleci/node:9.10.1
         environment:
           DATABASE_URL: postgres://pguser:pgpass@localhost:5432/typeorm_api_test
-      - image: circleci/postgres:9.6.8-alpine
+      - image: circleci/postgres:9.6.9-alpine-ram
         environment:
           POSTGRES_USER: pguser
           POSTGRES_PASSWORD: pgpass
