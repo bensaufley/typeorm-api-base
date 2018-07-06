@@ -1,4 +1,4 @@
-FROM node:9.8.0
+FROM node:9.10.1
 LABEL maintainer="Ben Saufley <contact@bensaufley.com>"
 ENV NODE_ENV development
 ENV DATABASE_URL postgres://pguser:pgpass@db:5432/typeorm_api_development
