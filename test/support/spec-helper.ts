@@ -1,3 +1,5 @@
+/// <reference path="./chai-plugins.d.ts" />
+/// <reference path="./database-cleaner.d.ts" />
 import * as chai from 'chai';
 import * as chaiPassportStrategy from 'chai-passport-strategy';
 import DatabaseCleaner = require('database-cleaner'); // tslint:disable-line import-name

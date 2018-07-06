@@ -46,4 +46,3 @@ describe('server', () => {
     expect(Koa.prototype.listen).to.have.been.calledWith(4923);
   });
 });
-

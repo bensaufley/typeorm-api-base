@@ -38,7 +38,7 @@ export default class Logger {
   private static log(
     color: (text: string) => string,
     text: string,
-    ...args: any[],
+    ...args: any[]
   ) {
     console[text === 'ERROR' ? 'error' : 'log'](
       [

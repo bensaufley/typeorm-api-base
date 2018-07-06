@@ -8,4 +8,3 @@ describe('schema', () => {
     expect(schema).to.be.an.instanceOf(GraphQLSchema);
   });
 });
-

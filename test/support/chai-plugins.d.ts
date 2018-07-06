@@ -1,6 +1,6 @@
 /// <reference types="chai" />
 
-module 'chai-change' {
+declare module 'chai-change' {
   interface ChaiChangeOptions {
     by?: number;
     from?: number;
@@ -20,7 +20,7 @@ module 'chai-change' {
   export = chaiChange;
 }
 
-module 'chai-passport-strategy' {
+declare module 'chai-passport-strategy' {
   import { Request } from 'koa';
   import { Strategy, AuthenticateOptions, StrategyCreatedStatic } from 'passport';
 
