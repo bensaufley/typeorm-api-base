@@ -13,7 +13,7 @@ describe('server', () => {
   const routerAllowedMethodsReturn = 'router.allowedMethods return value';
 
   beforeEach(async () => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(Koa.prototype, 'use').callsFake(function (this: typeof Koa) { return this; });
     sandbox.stub(Koa.prototype, 'listen').callsFake(function (this: typeof Koa) { return this; });
     sandbox.stub(router, 'routes').returns(routerRoutesReturn);
