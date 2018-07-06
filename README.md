@@ -1,5 +1,6 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/f35b76e15fd92548a341/maintainability)](https://codeclimate.com/github/bensaufley/typeorm-api-base/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/f35b76e15fd92548a341/test_coverage)](https://codeclimate.com/github/bensaufley/typeorm-api-base/test_coverage)
+[![CircleCI](https://circleci.com/gh/bensaufley/typeorm-api-base/tree/master.svg?style=shield&circle-token=ddd3af8267f82d39af1282a8440b5c386049648f)](https://circleci.com/gh/bensaufley/typeorm-api-base/tree/master)
 
 # TypeORM API Base
 
