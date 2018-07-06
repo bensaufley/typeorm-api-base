@@ -2,6 +2,10 @@ exclude_paths:
   - src/migrations
 engines:
   duplication:
+    config:
+      languages:
+        javascript:
+          mass_threshold: 60
     enabled: true
     exclude_paths:
       - "src/migrations"
