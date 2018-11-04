@@ -2,6 +2,10 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/f35b76e15fd92548a341/test_coverage)](https://codeclimate.com/github/bensaufley/typeorm-api-base/test_coverage)
 [![CircleCI](https://circleci.com/gh/bensaufley/typeorm-api-base/tree/master.svg?style=shield&circle-token=ddd3af8267f82d39af1282a8440b5c386049648f)](https://circleci.com/gh/bensaufley/typeorm-api-base/tree/master)
 
+# This Repo is Abandoned
+
+Please see the commit notes for [the last commit](https://github.com/bensaufley/typeorm-api-base/commit/72f734ef390ecd9e1869fe1233c28626ade97f8e) for more info.
+
 # TypeORM API Base
 
 A base from which to build a full-fledged TypeORM- and Apollo/GraphQL-based API server.
