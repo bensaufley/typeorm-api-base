@@ -9,16 +9,13 @@ describe('server/router', () => {
     expect(router).to.be.an.instanceOf(Router);
   });
 
-  it('has proper routes', () => {
+  it.only('has proper routes', () => {
     expect(router.stack.map((r) => r.path)).to.have.members([
       '(.*)',
       '(.*)',
       '/signup',
       '/login',
       '/logout',
-      '/graphiql',
-      '/graphql',
-      '/graphql',
     ]);
   });
 

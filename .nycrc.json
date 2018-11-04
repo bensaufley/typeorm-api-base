@@ -1,24 +1,22 @@
 {
   "all": true,
   "exclude": [
-    "**/*.d.ts",
-    ".build",
-    ".circleci",
-    ".vscode",
-    "coverage",
-    "node_modules",
-    "script",
-    "test",
     "src/index.ts",
-    "src/migrations"
+    "src/migrations",
+    "**/node_modules/**"
   ],
   "extension": [
     ".ts"
+  ],
+  "include": [
+    "src/**/*.ts"
   ],
   "reporter": [
     "lcov",
     "text",
     "text-summary"
   ],
-  "cache": true
+  "sourceMap": true,
+  "instrument": true,
+  "cache": false
 }

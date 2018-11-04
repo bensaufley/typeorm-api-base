@@ -1,4 +1,4 @@
-FROM node:9.10.1
+FROM node:10.13.0
 LABEL maintainer="Ben Saufley <contact@bensaufley.com>"
 ENV NODE_ENV development
 ENV DATABASE_URL postgres://pguser:pgpass@db:5432/typeorm_api_development
@@ -10,12 +10,10 @@ RUN yarn install
 RUN mkdir -p /usr/src/typeorm-api-base/ && cp -a /tmp/node_modules /usr/src/typeorm-api-base
 
 WORKDIR /usr/src/typeorm-api-base
+RUN useradd -m myuser
+RUN chown -R myuser:myuser /usr/src/typeorm-api-base
 COPY . /usr/src/typeorm-api-base
 
-RUN mkdir -p /usr/src/typeorm-api-base/coverage
-
-RUN useradd -m myuser
-RUN chown -R myuser:myuser /usr/src/typeorm-api-base/coverage
 USER myuser
 
 EXPOSE 3000

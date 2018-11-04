@@ -1,4 +1,4 @@
-FROM node:9.10.1
+FROM node:10.13.0
 LABEL maintainer "Ben Saufley <contact@bensaufley.com>"
 ENV NODE_ENV production
 ENV DATABASE_URL ${DATABASE_URL}
